@@ -200,7 +200,8 @@ latency low and makes atomic eviction straightforward. To scale further:
 
 ## Notes
 
-The HTTP server is implemented with the Rust standard library so the project can
-build without downloading crates. It is enough to demonstrate the matchmaking
-engine, concurrency model, and load behavior. For production HTTP handling, the
-same `Matchmaker` core can sit behind `tokio` and `axum`.
+The HTTP layer is deliberately small and uses the Rust standard library, which
+keeps the project easy to build and run in a fresh environment. The matchmaking
+core is kept separate from request handling, so the same engine could be moved
+behind an async stack such as `tokio` and `axum` without changing the matching
+algorithm.
