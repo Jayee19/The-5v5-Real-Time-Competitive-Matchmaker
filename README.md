@@ -30,6 +30,44 @@ The simulator can also start the service automatically:
 python3 scripts/simulate_load.py --players 10000 --concurrency 256
 ```
 
+## Simulation result
+
+I ran the load simulator with 10,000 players and 256 concurrent request workers:
+
+```bash
+python3 scripts/simulate_load.py --players 10000 --concurrency 256 --no-start-server
+```
+
+Result:
+
+```text
+Request status counts: {202: 10000}
+Injection time: 1.488s
+Throughput: 6722.0 enqueue req/s
+Enqueue latency ms: p50=19.26 p95=50.44 p99=65.29
+```
+
+Final metrics:
+
+```json
+{
+  "avg_enqueue_ns": 778,
+  "avg_match_skill_spread": 200,
+  "avg_team_skill_diff": 14,
+  "avg_wait_ms": 387,
+  "enqueue_rejections": 0,
+  "matches_created": 997,
+  "players_enqueued": 10000,
+  "players_matched": 9970,
+  "uptime_ms": 79706,
+  "waiting_players": 30
+}
+```
+
+The 30 remaining waiting players are expected in this run because players are
+partitioned by region and mode, and each completed match requires 10 compatible
+players in the same queue.
+
 ## API
 
 ### Enqueue player
